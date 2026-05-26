@@ -98,8 +98,8 @@ const stops: Stop[] = [
     note: "這不是踩點站；若不餓可以改成咖啡或飲料休息。",
     mapQuery: "嘉義市 午餐 冷氣",
     area: "A",
-    durationMin: 95,
-    stay: "11:20-12:50",
+    durationMin: 75,
+    stay: "11:18-12:33",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "午餐候選", url: mapSearchUrl("嘉義市 午餐 冷氣") },
@@ -118,8 +118,8 @@ const stops: Stop[] = [
     mapQuery: "嘉義文化創意產業園區",
     area: "A",
     mission: true,
-    durationMin: 70,
-    stay: "13:00-14:10",
+    durationMin: 60,
+    stay: "13:00-14:00",
     travelFromPreviousMin: 8,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義文化創意產業園區") },
@@ -138,8 +138,8 @@ const stops: Stop[] = [
     mapQuery: "嘉義市立博物館",
     area: "B",
     mission: true,
-    durationMin: 65,
-    stay: "14:25-15:35",
+    durationMin: 55,
+    stay: "14:20-15:15",
     travelFromPreviousMin: 20,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義市立博物館") },
@@ -158,8 +158,8 @@ const stops: Stop[] = [
     mapQuery: "嘉義製材所園區 嘉義實驗木場",
     area: "B",
     mission: true,
-    durationMin: 17,
-    stay: "15:45-16:00",
+    durationMin: 10,
+    stay: "15:20-15:30",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義製材所園區 嘉義實驗木場") },
@@ -168,7 +168,7 @@ const stops: Stop[] = [
   },
   {
     id: "literature-museum",
-    time: "16:15",
+    time: "15:50",
     type: "踩點",
     title: "嘉義文學館：東門町1923",
     desc: "可領金色花苗與明信片。",
@@ -179,7 +179,7 @@ const stops: Stop[] = [
     area: "C",
     mission: true,
     durationMin: 15,
-    stay: "16:15-16:30",
+    stay: "15:50-16:05",
     travelFromPreviousMin: 20,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義文學館 東門町1923") },
@@ -188,7 +188,7 @@ const stops: Stop[] = [
   },
   {
     id: "baseball-stadium",
-    time: "16:45",
+    time: "16:10",
     type: "踩點",
     title: "嘉義市立棒球場",
     desc: "可領金色花苗與明信片。",
@@ -199,7 +199,7 @@ const stops: Stop[] = [
     area: "C",
     mission: true,
     durationMin: 10,
-    stay: "16:45-16:55",
+    stay: "16:10-16:20",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義市立棒球場") },
@@ -208,7 +208,7 @@ const stops: Stop[] = [
   },
   {
     id: "culture-park",
-    time: "17:10",
+    time: "16:25",
     type: "踩點",
     title: "文化公園",
     desc: "可領金色花苗與明信片。",
@@ -219,7 +219,7 @@ const stops: Stop[] = [
     area: "C",
     mission: true,
     durationMin: 10,
-    stay: "17:10-17:18",
+    stay: "16:25-16:35",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義文化公園") },
@@ -228,7 +228,7 @@ const stops: Stop[] = [
   },
   {
     id: "central-market",
-    time: "17:22",
+    time: "16:40",
     type: "踩點",
     title: "嘉義中央第一商場",
     desc: "可領金色花苗與明信片。",
@@ -239,7 +239,7 @@ const stops: Stop[] = [
     area: "C",
     mission: true,
     durationMin: 5,
-    stay: "17:22-17:30",
+    stay: "16:40-16:45",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義中央第一商場") },
@@ -248,7 +248,7 @@ const stops: Stop[] = [
   },
   {
     id: "wenhua-dinner",
-    time: "17:30",
+    time: "17:00",
     type: "晚餐",
     title: "文化路夜市 / 文化路晚餐",
     desc: "",
@@ -258,8 +258,8 @@ const stops: Stop[] = [
     mapQuery: "嘉義文化路夜市",
     area: "C",
     locked: true,
-    durationMin: 70,
-    stay: "17:30 後",
+    durationMin: 90,
+    stay: "17:00-18:30",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "晚餐地圖", url: mapSearchUrl("嘉義文化路夜市 晚餐") },
@@ -274,7 +274,7 @@ const stops: Stop[] = [
     desc: "",
     reward: "返程緩衝",
     suggestion: "回高鐵站，保守抓候車、進站與走路時間。",
-    note: "回程高鐵 678 是嘉義 19:32 發車。",
+    note: "回程高鐵 678 是嘉義 19:32 發車；這段預設 18:45 出發、約 19:20 到站。",
     mapQuery: "嘉義文化路夜市 到 高鐵嘉義站",
     area: "gateway",
     locked: true,
@@ -390,7 +390,7 @@ function estimateTravelMinutes(from?: Stop, to?: Stop) {
   if (!from || !to || from.id === to.id) return 0;
   if (from.id === "hsr") return 35;
   if (to.id === "return-train") return 0;
-  if (to.id === "return-brt") return 40;
+  if (to.id === "return-brt") return 35;
   if (from.area === "gateway" || to.area === "gateway") return 35;
   if (from.area === to.area) return 5;
   const pair = new Set([from.area, to.area]);
@@ -404,8 +404,9 @@ function buildSchedule(orderedStops: Stop[]) {
 
   orderedStops.forEach((stop, index) => {
     const previous = orderedStops[index - 1];
-    if (previous) cursor += estimateTravelMinutes(previous, stop);
-    if (stop.id === "wenhua-dinner") cursor = Math.max(cursor, timeToMinutes("17:30"));
+    if (previous && stop.id !== "return-brt") cursor += estimateTravelMinutes(previous, stop);
+    if (stop.id === "creative-park") cursor = Math.max(cursor, timeToMinutes("13:00"));
+    if (stop.id === "wenhua-dinner") cursor = Math.max(cursor, timeToMinutes("17:00"));
     if (stop.id === "return-brt") cursor = Math.max(cursor, timeToMinutes("18:45"));
     if (stop.id === "return-train") cursor = Math.max(cursor, timeToMinutes("19:32"));
 
@@ -463,7 +464,7 @@ export default function ChiayiPikminPage() {
   const overallMap = fullRouteUrl(orderedStops);
   const nextTravelEstimate = estimateTravelMinutes(previousStop, firstOpen);
   const firstOpenSchedule = firstOpen ? scheduleById.get(firstOpen.id) : undefined;
-  const scheduledMinutes = firstOpenSchedule ? timeToMinutes(firstOpenSchedule.start) : timeToMinutes("17:30");
+  const scheduledMinutes = firstOpenSchedule ? timeToMinutes(firstOpenSchedule.start) : timeToMinutes("17:00");
   const nowMinutes = timeToMinutes(currentTime);
   const scheduleGap = scheduledMinutes - nowMinutes;
   const leaveGap = scheduleGap - travelEstimate;
@@ -808,7 +809,7 @@ export default function ChiayiPikminPage() {
             <b>長停：</b>嘉義市立美術館、嘉義文化創意產業園區、嘉義市立博物館都預留較長時間；文創園區刻意排在午後，比早上更有機會接上市集。
           </p>
           <p>
-            <b>預設路線：</b>先以展館停留與 17:30 文化路晚餐為基準排好；實際順序可拖曳調整，時間會依 A/B/C 分區重新粗估。
+            <b>預設路線：</b>先以展館停留、17:00 文化路晚餐、18:45 返程 BRT 為基準排好；實際順序可拖曳調整，時間會依 A/B/C 分區重新粗估。
           </p>
           <p>
             <b>交通：</b>市區以 Ubike 粗估，A 車站西側、B 北門藝文、C 東門/文化路；同區抓 5 分，A-B / B-C 抓 20 分，A-C 抓 30 分，高鐵頭尾 BRT 固定處理。
