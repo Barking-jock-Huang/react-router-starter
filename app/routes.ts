@@ -14,6 +14,7 @@ export default [
   route("admin", "routes/admin/index.tsx"),
   route("admin/changelog", "routes/admin/changelog.tsx"),
   route("admin/resume-company", "routes/admin/resume-company.tsx"),
+  route("admin/concert-intel", "routes/admin/concert-intel.tsx"),
   route("admin/ops", "routes/admin/ops.tsx"),
   route("resume", "routes/resume/layout.tsx", [
     index("routes/resume/index.tsx"),
@@ -30,6 +31,10 @@ export default [
   route("api/rng-prompt/export", "routes/api/rng-prompt-export.tsx"),
   route("api/rng-prompt/import", "routes/api/rng-prompt-import.tsx"),
   route("api/concert-events", "routes/api/concert-events.tsx"),
+  route("api/concert-intel/candidates", "routes/api/concert-intel/candidates.tsx"),
+  route("api/concert-intel/known", "routes/api/concert-intel/known.tsx"),
+  route("api/concert-intel/review-packet", "routes/api/concert-intel/review-packet.tsx"),
+  route("api/concert-intel/reviewed", "routes/api/concert-intel/reviewed.tsx"),
   route("api/blog-post", "routes/api/blog-post.tsx"),
   route("api/blog-media/image", "routes/api/blog-media.image.tsx"),
   route("api/blog-media/video/init", "routes/api/blog-media.video.init.tsx"),
@@ -67,5 +72,6 @@ export default [
   route("vote", "routes/tools/gift-vote.tsx"),
   route("rng_prompt", "routes/tools/rng-prompt.tsx"),
   route("concert_events", "routes/tools/concert-events.tsx"),
+  route("ticket_radar", "routes/tools/ticket-radar.tsx"),
   route("chiayi_pikmin", "routes/tools/chiayi-pikmin.tsx"),
 ] satisfies RouteConfig;

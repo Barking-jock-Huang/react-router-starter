@@ -21,8 +21,19 @@ type Stop = {
   attachments: Array<{ label: string; url: string }>;
 };
 
+type DessertSpot = {
+  name: string;
+  area: string;
+  place: string;
+  kind: string;
+  highlight: string;
+  bestFor: string;
+  mapQuery: string;
+  sourceUrl: string;
+};
+
 const STORAGE_KEY = "chiayi-pikmin-demo-completed";
-const ORDER_STORAGE_KEY = "chiayi-pikmin-demo-order";
+const ORDER_STORAGE_KEY = "chiayi-pikmin-demo-order-v2";
 const officialEventUrl = "https://pikminbloom.com/zh/news/may26-chiayiartsfestivalminiwalk";
 const pikminImages = [
   "/chiayi-pikmin/red-pikmin.webp",
@@ -69,18 +80,18 @@ const stops: Stop[] = [
   },
   {
     id: "art-museum",
-    time: "09:45",
-    type: "踩點 / 逛展",
+    time: "09:50",
+    type: "踩點 / 快閃",
     title: "嘉義市立美術館",
     desc: "可領金色花苗與明信片。",
     reward: "美術館 Decor",
-    suggestion: "看古蹟棟與本館的新舊對照：1936 年原菸酒公賣局嘉義分局、弧形轉角、水平窗帶、SCRATCH 磁磚，以及後來增建的玻璃盒子與木構語彙。",
-    note: "官網參觀資訊標示開館 09:00-17:00；當日展覽、售票與休館仍以美術館公告為準。",
+    suggestion: "這站只先拿 Pikmin 點位與快速看外觀，把下午的展店時間留給嘉義文創園區；若午後雨太大，再回來當室內雨備。",
+    note: "官網參觀資訊標示開館 09:00-17:00；當日展覽、售票與休館仍以美術館公告為準。文創園區比美術館優先，所以這裡不預設長逛。",
     mapQuery: "嘉義市立美術館",
     area: "A",
     mission: true,
-    durationMin: 85,
-    stay: "09:45-11:15",
+    durationMin: 12,
+    stay: "09:50-10:02",
     travelFromPreviousMin: 35,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義市立美術館") },
@@ -89,57 +100,118 @@ const stops: Stop[] = [
   },
   {
     id: "lunch",
-    time: "11:20",
-    type: "補給",
-    title: "午餐 / 冷氣休息",
+    time: "10:30",
+    type: "午餐",
+    title: "阿宏師火雞肉飯",
     desc: "",
     reward: "體力回復",
-    suggestion: "冷氣、坐得下、補水，這站的任務只有恢復體力。",
-    note: "這不是踩點站；若不餓可以改成咖啡或飲料休息。",
-    mapQuery: "嘉義市 午餐 冷氣",
-    area: "A",
-    durationMin: 75,
-    stay: "11:18-12:33",
+    suggestion: "抵達市區後先吃阿宏師，避開正午更可怕的人潮；這站不要拖成聊天局，吃完補水就出發收戶外點。",
+    note: "阿宏師光華店常見資訊標示約 10:30 開始營業，實際營業與公休仍以店家當日公告為準。",
+    mapQuery: "嘉義市東區光華路108號 阿宏師火雞肉飯",
+    area: "C",
+    durationMin: 45,
+    stay: "10:30-11:15",
+    travelFromPreviousMin: 30,
+    attachments: [
+      { label: "Google 地點", url: mapSearchUrl("嘉義市東區光華路108號 阿宏師火雞肉飯") },
+      { label: "附近甜點", url: mapSearchUrl("阿宏師火雞肉飯 光華路 附近 甜點 咖啡") },
+    ],
+  },
+  {
+    id: "culture-park",
+    time: "11:20",
+    type: "踩點 / 物資",
+    title: "文化公園",
+    desc: "可領金色花苗與明信片。",
+    reward: "公園（四葉幸運草）Decor",
+    suggestion: "午餐後順路拿市中心點位，不用急著清空全部戶外點；如果 5/30-5/31 15:00-21:00 想領官方地圖與遮陽帽，下午可再視情況折回來。",
+    note: "文化公園周邊店家多，天氣變差就往聖塔咖啡、Ookami 狼咖啡或文化路店家躲一下。",
+    mapQuery: "嘉義文化公園",
+    area: "C",
+    mission: true,
+    durationMin: 20,
+    stay: "11:20-11:40",
     travelFromPreviousMin: 5,
     attachments: [
-      { label: "午餐候選", url: mapSearchUrl("嘉義市 午餐 冷氣") },
-      { label: "附近咖啡", url: mapSearchUrl("嘉義市立美術館 附近 咖啡") },
+      { label: "Google 地點", url: mapSearchUrl("嘉義文化公園") },
+      { label: "附近甜點", url: mapSearchUrl("嘉義文化公園 附近 甜點 咖啡") },
+    ],
+  },
+  {
+    id: "central-market",
+    time: "11:40",
+    type: "踩點",
+    title: "嘉義中央第一商場",
+    desc: "可領金色花苗與明信片。",
+    reward: "服裝店 Decor",
+    suggestion: "拿服裝店 Decor，順便看商場與文化路周邊街區氛圍；這站和文化公園一起處理即可，不需要走成趕場。",
+    note: "中央第一商場屬市中心商場環境，可短暫避雨；下午若想領文化公園實體物資，也可以從文創園區再回來。",
+    mapQuery: "嘉義中央第一商場",
+    area: "C",
+    mission: true,
+    durationMin: 15,
+    stay: "11:45-12:00",
+    travelFromPreviousMin: 5,
+    attachments: [
+      { label: "Google 地點", url: mapSearchUrl("嘉義中央第一商場") },
+      { label: "前往文化路", url: mapSearchUrl("嘉義中央第一商場 到 文化路夜市") },
+    ],
+  },
+  {
+    id: "literature-museum",
+    time: "11:55",
+    type: "踩點",
+    title: "嘉義文學館：東門町1923",
+    desc: "可領金色花苗與明信片。",
+    reward: "圖書館 Decor",
+    suggestion: "用文學館把午餐後節奏放慢一點；看一段展、吹冷氣、補水，再往下午主軸移動。",
+    note: "《球者魂也》公開資訊標示展期至 2026/07/12；實際開館與入場以嘉義文學館公告為準。",
+    mapQuery: "嘉義文學館 東門町1923",
+    area: "C",
+    mission: true,
+    durationMin: 35,
+    stay: "12:05-12:40",
+    travelFromPreviousMin: 5,
+    attachments: [
+      { label: "Google 地點", url: mapSearchUrl("嘉義文學館 東門町1923") },
+      { label: "活動資訊", url: officialEventUrl },
     ],
   },
   {
     id: "creative-park",
-    time: "13:00",
-    type: "踩點 / 市集",
+    time: "13:20",
+    type: "踩點 / 下午主軸",
     title: "嘉義文化創意產業園區",
     desc: "可領金色花苗與明信片。",
     reward: "彩繪 Decor",
-    suggestion: "舊酒廠再利用園區，先拿 Pikmin 點位，再看創藝市集、品牌活動、展覽表演與園區建築。",
-    note: "官網標示戶外空間 24 小時開放，店家與活動依各自公告；市集有無與時間以園區當日公告/社群為準。",
+    suggestion: "下午的主菜。先拿 Pikmin 點位，再慢逛展店、市集、品牌活動、園區建築；這段保留充足時間，但不把整個下午都鎖死。",
+    note: "官網標示戶外空間 24 小時開放，店家與活動依各自公告；若正好遇到雷陣雨，就把文創停留拉長，後面的外圍點改成快閃或跳過。",
     mapQuery: "嘉義文化創意產業園區",
     area: "A",
     mission: true,
-    durationMin: 60,
-    stay: "13:00-14:00",
-    travelFromPreviousMin: 8,
+    durationMin: 85,
+    stay: "13:20-14:45",
+    travelFromPreviousMin: 30,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義文化創意產業園區") },
+      { label: "附近甜點", url: mapSearchUrl("嘉義文化創意產業園區 附近 甜點 咖啡") },
       { label: "活動資訊", url: officialEventUrl },
     ],
   },
   {
     id: "city-museum",
-    time: "14:25",
-    type: "踩點 / 逛展",
+    time: "15:05",
+    type: "踩點 / 室內",
     title: "嘉義市立博物館",
     desc: "可領金色花苗與明信片。",
     reward: "禮物貼紙（金色）Decor",
-    suggestion: "把它當城市博物館看：官網目前列出諸羅城、嘉義工藝、兒童策展、火雞肉飯等在地題材；選 1-2 個主題慢看，比每區都掃過有感。",
+    suggestion: "文創後接一個室內點，讓下午不要只剩空白；拿點、補水，選 1 個主題看就好。",
     note: "部分特展可能售票或依檔期調整；現場展覽、票價與開放空間以館方公告為準。",
     mapQuery: "嘉義市立博物館",
     area: "B",
     mission: true,
-    durationMin: 55,
-    stay: "14:20-15:15",
+    durationMin: 35,
+    stay: "15:05-15:40",
     travelFromPreviousMin: 20,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義市立博物館") },
@@ -149,17 +221,17 @@ const stops: Stop[] = [
   {
     id: "wood-lab",
     time: "15:45",
-    type: "踩點",
+    type: "踩點 / 戶外",
     title: "嘉義製材所園區 / 嘉義實驗木場",
     desc: "可領金色花苗與明信片。",
     reward: "五金行 Decor",
-    suggestion: "看阿里山林業在市區留下的產業現場：製材工場、動力室、鋸屑室、乾燥室，理解嘉義「木都」怎麼從阿里山鐵道接到市區。",
+    suggestion: "文創後再收北門藝文區的戶外點，不用早上硬塞；看木都產業現場的外觀與主要建築即可。",
     note: "以戶外與歷史建築為主；雨天或高溫時現場體感會明顯影響停留品質。",
     mapQuery: "嘉義製材所園區 嘉義實驗木場",
     area: "B",
     mission: true,
-    durationMin: 10,
-    stay: "15:20-15:30",
+    durationMin: 15,
+    stay: "15:45-16:00",
     travelFromPreviousMin: 5,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義製材所園區 嘉義實驗木場") },
@@ -167,83 +239,23 @@ const stops: Stop[] = [
     ],
   },
   {
-    id: "literature-museum",
-    time: "15:50",
-    type: "踩點",
-    title: "嘉義文學館：東門町1923",
-    desc: "可領金色花苗與明信片。",
-    reward: "圖書館 Decor",
-    suggestion: "看百年東門派出所再生的文學基地；2026 首展《球者魂也：嘉義棒球文學特展》把展場做成球場，用文學看 KANO 與嘉義棒球原鄉。",
-    note: "《球者魂也》公開資訊標示展期至 2026/07/12；實際開館與入場以嘉義文學館公告為準。",
-    mapQuery: "嘉義文學館 東門町1923",
-    area: "C",
-    mission: true,
-    durationMin: 15,
-    stay: "15:50-16:05",
-    travelFromPreviousMin: 20,
-    attachments: [
-      { label: "Google 地點", url: mapSearchUrl("嘉義文學館 東門町1923") },
-      { label: "活動資訊", url: officialEventUrl },
-    ],
-  },
-  {
     id: "baseball-stadium",
-    time: "16:10",
-    type: "踩點",
+    time: "16:20",
+    type: "踩點 / 戶外",
     title: "嘉義市立棒球場",
     desc: "可領金色花苗與明信片。",
     reward: "體育館 Decor",
-    suggestion: "外圍看嘉義棒球脈絡與 KANO 記憶；嘉義市立棒球場源自日治時期公園球場，和嘉義「棒球原鄉」形象很直接。",
-    note: "若沒有比賽或活動，不預設能入場參觀；以外圍與周邊公共空間為主。",
+    suggestion: "最後一個分散戶外點，建議只拿點與看外圍；若時間漂亮，可以順手往文化公園確認實體物資。",
+    note: "若沒有比賽或活動，不預設能入場參觀；雨勢變大就改搭車點到點，或直接往晚餐區移動。",
     mapQuery: "嘉義市立棒球場",
     area: "C",
     mission: true,
     durationMin: 10,
-    stay: "16:10-16:20",
-    travelFromPreviousMin: 5,
+    stay: "16:20-16:30",
+    travelFromPreviousMin: 20,
     attachments: [
       { label: "Google 地點", url: mapSearchUrl("嘉義市立棒球場") },
       { label: "活動資訊", url: officialEventUrl },
-    ],
-  },
-  {
-    id: "culture-park",
-    time: "16:25",
-    type: "踩點",
-    title: "文化公園",
-    desc: "可領金色花苗與明信片。",
-    reward: "公園（四葉幸運草）Decor",
-    suggestion: "5/30-5/31 15:00-21:00 官方地圖與遮陽帽發放攤位在這裡；有到攤位就先確認領取規則。",
-    note: "官方公告說實體攤位只在 5/30-5/31 15:00-21:00；不在攤位時段也仍可玩遊戲 Special Spot。",
-    mapQuery: "嘉義文化公園",
-    area: "C",
-    mission: true,
-    durationMin: 10,
-    stay: "16:25-16:35",
-    travelFromPreviousMin: 5,
-    attachments: [
-      { label: "Google 地點", url: mapSearchUrl("嘉義文化公園") },
-      { label: "官方活動公告", url: officialEventUrl },
-    ],
-  },
-  {
-    id: "central-market",
-    time: "16:40",
-    type: "踩點",
-    title: "嘉義中央第一商場",
-    desc: "可領金色花苗與明信片。",
-    reward: "服裝店 Decor",
-    suggestion: "拿服裝店 Decor，順便看商場與文化路周邊街區氛圍。",
-    note: "中央第一商場屬市中心商場環境，傍晚周邊人流通常會增加。",
-    mapQuery: "嘉義中央第一商場",
-    area: "C",
-    mission: true,
-    durationMin: 5,
-    stay: "16:40-16:45",
-    travelFromPreviousMin: 5,
-    attachments: [
-      { label: "Google 地點", url: mapSearchUrl("嘉義中央第一商場") },
-      { label: "前往文化路", url: mapSearchUrl("嘉義中央第一商場 到 文化路夜市") },
     ],
   },
   {
@@ -306,6 +318,59 @@ const stops: Stop[] = [
   },
 ];
 
+const dessertSpots: DessertSpot[] = [
+  {
+    name: "聖塔咖啡",
+    area: "文化公園 / 文化路",
+    place: "嘉義市興中街10號",
+    kind: "咖啡、甜點、晚間雨備",
+    highlight: "蛋捲、手作甜點；飲品優先點單品咖啡或手沖。",
+    bestFor: "文化公園或文化路段臨時停靠",
+    mapQuery: "聖塔咖啡 嘉義市興中街10號",
+    sourceUrl: "https://www.stcoffee.tw/web/about/index.php",
+  },
+  {
+    name: "霜空珈琲",
+    area: "國華街 / 西市場",
+    place: "嘉義市西區國華街132號",
+    kind: "老屋咖啡、手作甜點",
+    highlight: "霜空點心盤、季節水果戚風、鍋煮奶茶。",
+    bestFor: "文創或美術館後的正式下午茶",
+    mapQuery: "霜空珈琲 嘉義市西區國華街132號",
+    sourceUrl: "https://travel.yam.com/article/110723",
+  },
+  {
+    name: "仨丘珈琲 Sachuu cafe",
+    area: "杭州三街 / 西區",
+    place: "嘉義市西區杭州三街45號",
+    kind: "咖啡、泰奶系甜點、蛋糕",
+    highlight: "焦糖林檎波士頓派、提拉米蘇、板糖烤奶茶布丁。",
+    bestFor: "文創園區後想專程吃甜點",
+    mapQuery: "仨丘珈琲 Sachuu cafe 嘉義市西區杭州三街45號",
+    sourceUrl: "https://nowhot01.com/sachuu-cafe/",
+  },
+  {
+    name: "兩顆蛋 Egg Egg Dessert",
+    area: "蘭井街 / 東門市區",
+    place: "嘉義市東區蘭井街108號",
+    kind: "甜點咖啡、布丁、檸檬塔",
+    highlight: "馬達加斯加胖布、大白熊、伯爵草莓鮮奶油。",
+    bestFor: "午餐後想吃明確甜點",
+    mapQuery: "兩顆蛋 Egg Egg Dessert 嘉義市東區蘭井街108號",
+    sourceUrl: "https://blackmomo.tw/egg-egg-dessert/",
+  },
+  {
+    name: "新台灣餅舖",
+    area: "中山路 / 噴水圓環",
+    place: "嘉義市中山路294號",
+    kind: "百年餅舖、日式糕餅、伴手禮",
+    highlight: "杏仁瓦片、神木羊羹、桃仔尾酥皮餅、招牌蛋黃酥。",
+    bestFor: "回程前買伴手禮",
+    mapQuery: "新台灣餅舖 嘉義市中山路294號",
+    sourceUrl: "https://www.newtaiwan-bakery.com.tw/",
+  },
+];
+
 export function meta() {
   return [
     { title: "嘉義皮克敏踩點行程" },
@@ -365,6 +430,13 @@ function fullRouteUrl(routeStops: Stop[]) {
   return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin.mapQuery)}&destination=${encodeURIComponent(destination.mapQuery)}&waypoints=${encodeURIComponent(waypoints)}&travelmode=bicycling`;
 }
 
+function dessertRouteUrl(spots: DessertSpot[]) {
+  const origin = spots[0];
+  const destination = spots[spots.length - 1];
+  const waypoints = spots.slice(1, -1).map((spot) => spot.mapQuery).join("|");
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin.mapQuery)}&destination=${encodeURIComponent(destination.mapQuery)}&waypoints=${encodeURIComponent(waypoints)}&travelmode=bicycling`;
+}
+
 function timeToMinutes(time: string) {
   const [hours, minutes] = time.split(":").map(Number);
   return hours * 60 + minutes;
@@ -405,7 +477,8 @@ function buildSchedule(orderedStops: Stop[]) {
   orderedStops.forEach((stop, index) => {
     const previous = orderedStops[index - 1];
     if (previous && stop.id !== "return-brt") cursor += estimateTravelMinutes(previous, stop);
-    if (stop.id === "creative-park") cursor = Math.max(cursor, timeToMinutes("13:00"));
+    if (stop.id === "lunch") cursor = Math.max(cursor, timeToMinutes("10:30"));
+    if (stop.id === "creative-park") cursor = Math.max(cursor, timeToMinutes("13:20"));
     if (stop.id === "wenhua-dinner") cursor = Math.max(cursor, timeToMinutes("17:00"));
     if (stop.id === "return-brt") cursor = Math.max(cursor, timeToMinutes("18:45"));
     if (stop.id === "return-train") cursor = Math.max(cursor, timeToMinutes("19:32"));
@@ -462,6 +535,7 @@ export default function ChiayiPikminPage() {
   const missionProgress = hasMounted ? missionStops.filter((stop) => completed.has(stop.id)).length : 0;
   const progressPercent = (missionProgress / missionStops.length) * 100;
   const overallMap = fullRouteUrl(orderedStops);
+  const dessertMap = dessertRouteUrl(dessertSpots);
   const nextTravelEstimate = estimateTravelMinutes(previousStop, firstOpen);
   const firstOpenSchedule = firstOpen ? scheduleById.get(firstOpen.id) : undefined;
   const scheduledMinutes = firstOpenSchedule ? timeToMinutes(firstOpenSchedule.start) : timeToMinutes("17:00");
@@ -800,21 +874,79 @@ export default function ChiayiPikminPage() {
           })}
         </section>
 
-        <div className="chiayi-pikmin-section-title">安排邏輯</div>
+        <details className="chiayi-pikmin-strategy-fold">
+          <summary>
+            <span>這趟的悠閒節奏</span>
+            <b>節奏說明</b>
+          </summary>
         <section className="chiayi-pikmin-note-card">
           <p>
-            <b>車票：</b>{trainInfo.outbound}；{trainInfo.inbound}。
+            <b>先吃飯，不先修行：</b>{trainInfo.outbound}；{trainInfo.inbound}。09:13 到嘉義後，前面只塞一個美術館快閃，真正的第一件大事是 10:30 阿宏師。餓著跑點會讓每個路口都變遠。
           </p>
           <p>
-            <b>長停：</b>嘉義市立美術館、嘉義文化創意產業園區、嘉義市立博物館都預留較長時間；文創園區刻意排在午後，比早上更有機會接上市集。
+            <b>文創是主菜：</b>嘉義文化創意產業園區放在 13:20 左右，留一段像樣的時間逛，不把它當「順便拿點」。美術館早上先碰一下，真的下雨再把它召回來當室內備案。
           </p>
           <p>
-            <b>預設路線：</b>先以展館停留、17:00 文化路晚餐、18:45 返程 BRT 為基準排好；實際順序可拖曳調整，時間會依 A/B/C 分區重新粗估。
+            <b>上午不要變競走：</b>午餐後只收文化公園、中央第一商場、文學館這幾個近身點，讓身體知道自己是在旅遊，不是在做城市定向越野。
           </p>
           <p>
-            <b>交通：</b>市區以 Ubike 粗估，A 車站西側、B 北門藝文、C 東門/文化路；同區抓 5 分，A-B / B-C 抓 20 分，A-C 抓 30 分，高鐵頭尾 BRT 固定處理。
+            <b>雨來了就轉彎：</b>午後雷陣雨不是魔王，是改路線的提示。文創、博物館、文學館、甜點咖啡都能接住；木場和棒球場則是天氣好就收，天氣差就不要逞強。
+          </p>
+          <p>
+            <b>移動原則：</b>市區用 Ubike 粗估，A 車站西側、B 北門藝文、C 東門/文化路；同區抓 5 分，跨區抓 20-30 分。時間表是方向盤，不是手銬。
           </p>
         </section>
+        </details>
+
+        <details className="chiayi-pikmin-dessert-fold">
+          <summary>
+            <span>甜點雨備清單</span>
+            <b>{dessertSpots.length} 間候選</b>
+            <a
+              className="chiayi-pikmin-dessert-map-link"
+              href={dessertMap}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+            >
+              全部地圖
+            </a>
+          </summary>
+          <p className="chiayi-pikmin-dessert-intro">集中放這裡，不塞進主行程；下雨、想坐一下、或回程買伴手禮時再打開挑。</p>
+          <section className="chiayi-pikmin-desserts" aria-label="甜點雨備清單">
+            {dessertSpots.map((spot) => (
+              <article className="chiayi-pikmin-dessert-card" key={spot.name}>
+                <div>
+                  <span>{spot.area}</span>
+                  <h2>{spot.name}</h2>
+                  <p>{spot.place}</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>類型</dt>
+                    <dd>{spot.kind}</dd>
+                  </div>
+                  <div>
+                    <dt>重點推薦</dt>
+                    <dd>{spot.highlight}</dd>
+                  </div>
+                  <div>
+                    <dt>適合時機</dt>
+                    <dd>{spot.bestFor}</dd>
+                  </div>
+                </dl>
+                <div className="chiayi-pikmin-dessert-actions">
+                  <a href={mapSearchUrl(spot.mapQuery)} target="_blank" rel="noreferrer">
+                    地圖
+                  </a>
+                  <a href={spot.sourceUrl} target="_blank" rel="noreferrer">
+                    參考
+                  </a>
+                </div>
+              </article>
+            ))}
+          </section>
+        </details>
       </main>
 
       <nav className="chiayi-pikmin-bottom-nav" aria-label="任務操作">
@@ -1658,6 +1790,233 @@ const chiayiPikminCss = `
   color: var(--cp-text);
 }
 
+.chiayi-pikmin-strategy-fold {
+  border: 1px solid rgba(240, 109, 94, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 252, 237, 0.92);
+  box-shadow: 0 12px 24px rgba(71, 84, 77, 0.08);
+  overflow: hidden;
+}
+
+.chiayi-pikmin-strategy-fold summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 16px 18px;
+  color: var(--cp-text);
+  font-weight: 900;
+  cursor: pointer;
+  list-style: none;
+}
+
+.chiayi-pikmin-strategy-fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.chiayi-pikmin-strategy-fold summary::after {
+  content: "+";
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--cp-sun-soft);
+  color: #6a5610;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.chiayi-pikmin-strategy-fold[open] summary::after {
+  content: "-";
+}
+
+.chiayi-pikmin-strategy-fold summary span {
+  font-size: 16px;
+}
+
+.chiayi-pikmin-strategy-fold summary b {
+  margin-left: auto;
+  color: var(--cp-muted);
+  font-size: 13px;
+}
+
+.chiayi-pikmin-strategy-fold .chiayi-pikmin-note-card {
+  border: 0;
+  border-top: 1px solid rgba(240, 109, 94, 0.14);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.chiayi-pikmin-dessert-fold {
+  border: 1px solid rgba(42, 122, 120, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 254, 247, 0.9);
+  box-shadow: 0 12px 24px rgba(71, 84, 77, 0.08);
+  overflow: hidden;
+}
+
+.chiayi-pikmin-dessert-fold summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 16px 18px;
+  color: var(--cp-text);
+  font-weight: 900;
+  cursor: pointer;
+  list-style: none;
+}
+
+.chiayi-pikmin-dessert-fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.chiayi-pikmin-dessert-fold summary::after {
+  content: "+";
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: #eff9f4;
+  color: var(--cp-leaf-dark);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.chiayi-pikmin-dessert-fold[open] summary::after {
+  content: "-";
+}
+
+.chiayi-pikmin-dessert-fold summary span {
+  font-size: 16px;
+}
+
+.chiayi-pikmin-dessert-fold summary b {
+  margin-left: auto;
+  color: var(--cp-muted);
+  font-size: 13px;
+}
+
+.chiayi-pikmin-dessert-map-link {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--cp-leaf-dark);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.chiayi-pikmin-dessert-intro {
+  margin: 0;
+  padding: 0 18px 14px;
+  color: var(--cp-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.chiayi-pikmin-desserts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 0 18px 18px;
+}
+
+.chiayi-pikmin-dessert-card {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(42, 122, 120, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 254, 247, 0.94);
+  box-shadow: 0 12px 24px rgba(71, 84, 77, 0.08);
+}
+
+.chiayi-pikmin-dessert-card > div:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.chiayi-pikmin-dessert-card span {
+  color: var(--cp-leaf-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.chiayi-pikmin-dessert-card h2 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.chiayi-pikmin-dessert-card p,
+.chiayi-pikmin-dessert-card dl,
+.chiayi-pikmin-dessert-card dd {
+  margin: 0;
+}
+
+.chiayi-pikmin-dessert-card p {
+  color: var(--cp-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.chiayi-pikmin-dessert-card dl {
+  display: grid;
+  gap: 10px;
+}
+
+.chiayi-pikmin-dessert-card dl div {
+  display: grid;
+  gap: 3px;
+}
+
+.chiayi-pikmin-dessert-card dt {
+  color: var(--cp-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.chiayi-pikmin-dessert-card dd {
+  color: var(--cp-text);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.chiayi-pikmin-dessert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chiayi-pikmin-dessert-actions a {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #eff9f4;
+  color: var(--cp-leaf-dark);
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .chiayi-pikmin-bottom-nav {
   position: fixed;
   left: 50%;
@@ -1699,6 +2058,10 @@ const chiayiPikminCss = `
 @media (min-width: 720px) {
   .chiayi-pikmin-app {
     padding-top: 24px;
+  }
+
+  .chiayi-pikmin-desserts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 `;
